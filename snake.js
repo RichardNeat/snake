@@ -145,6 +145,7 @@ function youLose() {
   clearInterval(gameStart);
   gameActive = false;
   foodActive = false;
+  gameSpeed = 500;
   squares[foodIndex].className = "gridsquare";
   gameGrid.classList.add("lose_screen");
   loseSquares.forEach((index) => {
@@ -155,6 +156,7 @@ function youLose() {
     highScorePara.innerText = `High Score: ${localStorage.getItem('highScore')}`;
   };
   gameBody[0].appendChild(playAgainButton);
+  score = 0;
 }
 
 // REMOVE ALL SNAKE BACKGROUND
