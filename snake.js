@@ -21,6 +21,7 @@ let gameActive = false;
 let gameStart = 0;
 let foodActive = false;
 let foodIndex = 0;
+let randomFoodNum = 0;
 let gameSpeed = 500;
 let score = 0;
 scorePara.innerText = `Current score: ${score}`;
@@ -110,9 +111,9 @@ const movementTick = () => {
     snake.mid.push(snake.front);
     snake.front += gridShift;
     snake.mid.shift();
-    const hasFood = squares[snake.front].classList.contains("food");
+    const hasFood = squares[snake.front].classList.value.includes("food");
     if (hasFood) {
-      squares[snake.front].classList.remove("food");
+      squares[snake.front].classList.remove(`food${randomFoodNum}`);
       foodActive = false;
       addFood();
       growSnake();
@@ -169,8 +170,9 @@ function addFood() {
   if (!foodActive) {
     foodIndex = Math.floor(Math.random() * squares.length);
     if (!snake.mid.includes(foodIndex) && snake.front !== foodIndex) {
-        squares[foodIndex].classList.add('food');
-        foodActive = true;
+      randomFoodNum = Math.floor(Math.random() * 5);
+      squares[foodIndex].classList.add(`food${randomFoodNum}`);
+      foodActive = true;
     } else {
         addFood();
     };
@@ -189,7 +191,8 @@ function growSnake() {
 
 // PLAY AGAIN BUTTON
 function playAgain () {
-    gameGrid.classList = "pause_screen";
+  gameGrid.classList.remove("lose_screen");
+  gameGrid.classList.add("pause_screen");
     squares.forEach((square) => {
         square.className = "gridsquare"
     });

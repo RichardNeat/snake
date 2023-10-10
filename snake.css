@@ -20,8 +20,28 @@
   background-color: red;
 }
 
-.food {
-  background-image: url("/assets/Screenshot\ 2023-10-10\ at\ 08.31.14.png");
+.food0 {
+  background-image: url("/assets/food1.png");
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+}
+.food1 {
+  background-image: url("/assets/food2.png");
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+}
+.food2 {
+  background-image: url("/assets/food3.png");
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+}
+.food3 {
+  background-image: url("/assets/food4.png");
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+}
+.food4 {
+  background-image: url("/assets/food5.png");
   background-size: 15px 15px;
   background-repeat: no-repeat;
 }
