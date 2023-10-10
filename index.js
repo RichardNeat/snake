@@ -144,8 +144,6 @@ function youLose() {
   clearSnake();
   clearInterval(gameStart);
   gameActive = false;
-  foodActive = false;
-  gameSpeed = 500;
   squares[foodIndex].className = "gridsquare";
   gameGrid.classList.add("lose_screen");
   loseSquares.forEach((index) => {
@@ -156,7 +154,6 @@ function youLose() {
     highScorePara.innerText = `High Score: ${localStorage.getItem('highScore')}`;
   };
   gameBody[0].appendChild(playAgainButton);
-  score = 0;
 }
 
 // REMOVE ALL SNAKE BACKGROUND
@@ -193,6 +190,16 @@ function growSnake() {
 
 // PLAY AGAIN BUTTON
 function playAgain () {
+  score = 0;
+  foodActive = false;
+  gameSpeed = 500;
+  direction = "up";
+  inputGiven = false;
+  gridShift = -20;
+  gameStart = 0;
+  foodIndex = 0;
+  randomFoodNum = 0;
+  scorePara.innerText = `Current score: ${score}`;
   gameGrid.classList.remove("lose_screen");
   gameGrid.classList.add("pause_screen");
     squares.forEach((square) => {
