@@ -89,11 +89,12 @@ document.addEventListener("keydown", (event) => {
 
 // MOVEMENT TICK
 const movementTick = () => {
+  console.log(snake.front)
   if (
     snake.front % 20 === 0 && direction === "left" ||
     snake.front % 20 === 19 && direction === "right" ||
     snake.front < 21 && direction === "up" ||
-    snake.front > 400 && direction === "down" ||
+    snake.front > 380 && direction === "down" ||
     snake.mid.includes(snake.front)
   ) {
     youLose();
