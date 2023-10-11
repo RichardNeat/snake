@@ -56,28 +56,28 @@ snakeDesign();
 // DIRECTIONAL INPUT
 document.addEventListener("keydown", (event) => {
   if (gameActive && !inputGiven) {
-    if (event.code === "KeyW") {
+    if (event.code === "KeyW" || event.code === 'ArrowUp') {
       if (direction !== "down") {
         gridShift = -20;
         direction = "up";
         inputGiven = true;
       }
     }
-    if (event.code === "KeyA") {
+    if (event.code === "KeyA" || event.code === 'ArrowLeft') {
       if (direction !== "right") {
         gridShift = -1;
         direction = "left";
         inputGiven = true;
       }
     }
-    if (event.code === "KeyS") {
+    if (event.code === "KeyS" || event.code === 'ArrowDown') {
       if (direction !== "up") {
         gridShift = 20;
         direction = "down";
         inputGiven = true;
       }
     }
-    if (event.code === "KeyD") {
+    if (event.code === "KeyD" || event.code === 'ArrowRight') {
       if (direction !== "left") {
         gridShift = 1;
         direction = "right";
@@ -89,7 +89,6 @@ document.addEventListener("keydown", (event) => {
 
 // MOVEMENT TICK
 const movementTick = () => {
-  console.log(snake.front)
   if (
     snake.front % 20 === 0 && direction === "left" ||
     snake.front % 20 === 19 && direction === "right" ||
