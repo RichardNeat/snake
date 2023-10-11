@@ -14,6 +14,12 @@ const snake = {
 };
 
 // ARRANGE VARIABLES FOR DIRECTION, INTERVAL TICK, GAME SPEED AND SCORE
+const directionDecisions = {
+  'KeyW': {direction: "up", cantGo: 'down', gridShift: -20},
+  'KeyA': {direction: "left", cantGo: 'right', gridShift: -1},
+  'KeyS': {direction: "down", cantGo: 'up', gridShift: 20},
+  'KeyD': {direction: "right", cantGo: 'left', gridShift: 1},
+};
 let direction = "up";
 let inputGiven = false;
 let gridShift = -20;
@@ -29,22 +35,7 @@ highScorePara.innerText = `High Score: ${localStorage.getItem('highScore') || 0}
 gameBody[0].appendChild(scorePara);
 gameBody[0].appendChild(highScorePara);
 
-// SET INDICES FOR LOSE CONDITIONS
-const leftSquares = [
-  0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320,
-  340, 360, 380,
-];
-const rightSquares = [
-  19, 39, 59, 79, 99, 119, 139, 159, 179, 199, 219, 239, 259, 279, 299, 319,
-  339, 359, 379,
-];
-const upSquares = [
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-];
-const downSquares = [
-  380, 381, 382, 383, 384, 385, 386, 387, 389, 390, 391, 392, 393, 394, 395,
-  396, 397, 398, 399,
-];
+// SET INDICES FOR LOSE SCREEN
 const loseSquares = [
   43, 64, 85, 66, 47, 105, 125, 129, 130, 131, 109, 89, 69, 49, 50, 51, 71, 91,
   111, 133, 113, 93, 73, 53, 134, 135, 115, 95, 75, 55, 202, 222, 242, 262, 282,
@@ -93,16 +84,16 @@ document.addEventListener("keydown", (event) => {
         inputGiven = true;
       }
     }
-  }
+  };
 });
 
 // MOVEMENT TICK
 const movementTick = () => {
   if (
-    (leftSquares.includes(snake.front) && direction === "left") ||
-    (rightSquares.includes(snake.front) && direction === "right") ||
-    (upSquares.includes(snake.front) && direction === "up") ||
-    (downSquares.includes(snake.front) && direction === "down") ||
+    snake.front % 20 === 0 && direction === "left" ||
+    snake.front % 20 === 19 && direction === "right" ||
+    snake.front < 21 && direction === "up" ||
+    snake.front > 400 && direction === "down" ||
     snake.mid.includes(snake.front)
   ) {
     youLose();
@@ -112,13 +103,13 @@ const movementTick = () => {
     snake.front += gridShift;
     snake.mid.shift();
     const hasFood = squares[snake.front].classList.value.includes("food");
+    snakeDesign();
     if (hasFood) {
       squares[snake.front].classList.remove(`food${randomFoodNum}`);
       foodActive = false;
       addFood();
       growSnake();
     }
-    snakeDesign();
   }
   inputGiven = false;
 };
