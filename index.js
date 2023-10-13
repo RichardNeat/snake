@@ -211,7 +211,7 @@ function playAgain () {
 
 // GET LEADERBOARD
 function getLeaderboard () {
-  fetch("https://snake-api-4ixi.onrender.com/api/leaderboard")
+  fetch("API_KEY")
     .then((response) => response.json())
     .then((res) => {
       leaderboardData.leaderboard = res.leaderboard;
@@ -261,7 +261,7 @@ function newHighScore () {
 
 function postHighScore () {
   inputSubmit.disabled = true;
-  fetch('https://snake-api-4ixi.onrender.com/api/leaderboard', {
+  fetch('API_KEY', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -282,3 +282,5 @@ function postHighScore () {
     getLeaderboard();
   });
 };
+
+console.log(process.env)
