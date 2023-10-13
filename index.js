@@ -260,6 +260,7 @@ function newHighScore () {
 };
 
 function postHighScore () {
+  inputSubmit.disabled = true;
   fetch('https://snake-api-4ixi.onrender.com/api/leaderboard', {
     method: 'POST',
     headers: {
