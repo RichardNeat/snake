@@ -56,7 +56,7 @@ function snakeDesign() {
   snake.mid.forEach((snakePart) => {
     squares[snakePart].classList.add("currsquare");
   });
-}
+};
 snakeDesign();
 
 // DIRECTIONAL INPUT
