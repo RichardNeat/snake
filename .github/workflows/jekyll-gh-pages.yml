@@ -38,7 +38,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         env:
-          MY_API_KEY: ${{secrets.MY_API_KEY}}
+          API_KEY: ${{secrets.MY_API_KEY}}
 
   # Deployment job
   deploy:
