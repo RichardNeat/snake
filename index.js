@@ -282,5 +282,3 @@ function postHighScore () {
     getLeaderboard();
   });
 };
-
-console.log(process.env)
