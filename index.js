@@ -211,7 +211,7 @@ function playAgain () {
 
 // GET LEADERBOARD
 function getLeaderboard () {
-  fetch("https://snake-server-1uz8.onrender.com")
+  fetch("https://snake-server-1uz8.onrender.com/api/leaderboard")
     .then((response) => response.json())
     .then((res) => {
       leaderboardData.leaderboard = res.leaderboard;
@@ -261,7 +261,7 @@ function newHighScore () {
 
 function postHighScore () {
   inputSubmit.disabled = true;
-  fetch('https://snake-server-1uz8.onrender.com', {
+  fetch('https://snake-server-1uz8.onrender.com/api/leaderboard', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
