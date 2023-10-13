@@ -1,11 +1,22 @@
 const squares = document.querySelectorAll(".gridsquare");
 const gameGrid = document.querySelector(".gamegrid");
-const gameBody = document.getElementsByTagName("body");
+const gameBody = document.getElementsByTagName("section");
 const scorePara = document.createElement("p");
 const highScorePara = document.createElement("p");
 const playAgainButton = document.createElement("button");
 playAgainButton.innerText = "🐍 PLAY AGAIN 🐍";
 playAgainButton.addEventListener('click', playAgain);
+const body = document.getElementsByTagName('body');
+const leaderboardData = {leaderboard: []};
+const leaderboardSection = document.createElement("section");
+leaderboardSection.classList.add('leaderboard');
+const leaderboardHeader = document.createElement("h3");
+getLeaderboard();
+const congratsPara = document.createElement('p');
+const inputLabel = document.createElement("label");
+const nameInput = document.createElement("input");
+const inputSubmit = document.createElement("button");
+const leaderboard = document.createElement('ol');
 
 // SNAKE INDICES
 const snake = {
@@ -14,12 +25,6 @@ const snake = {
 };
 
 // ARRANGE VARIABLES FOR DIRECTION, INTERVAL TICK, GAME SPEED AND SCORE
-const directionDecisions = {
-  'KeyW': {direction: "up", cantGo: 'down', gridShift: -20},
-  'KeyA': {direction: "left", cantGo: 'right', gridShift: -1},
-  'KeyS': {direction: "down", cantGo: 'up', gridShift: 20},
-  'KeyD': {direction: "right", cantGo: 'left', gridShift: 1},
-};
 let direction = "up";
 let inputGiven = false;
 let gridShift = -20;
@@ -30,6 +35,7 @@ let foodIndex = 0;
 let randomFoodNum = 0;
 let gameSpeed = 500;
 let score = 0;
+let highScoreName = '';
 scorePara.innerText = `Current score: ${score}`;
 highScorePara.innerText = `High Score: ${localStorage.getItem('highScore') || 0}`;
 gameBody[0].appendChild(scorePara);
@@ -145,7 +151,8 @@ function youLose() {
     highScorePara.innerText = `High Score: ${localStorage.getItem('highScore')}`;
   };
   gameBody[0].appendChild(playAgainButton);
-}
+  checkHighScore();
+};
 
 // REMOVE ALL SNAKE BACKGROUND
 function clearSnake() {
@@ -200,4 +207,77 @@ function playAgain () {
     snake.mid = [187, 188];
     snakeDesign();
     gameBody[0].removeChild(playAgainButton);
+};
+
+// GET LEADERBOARD
+function getLeaderboard () {
+  fetch("https://snake-api-4ixi.onrender.com/api/leaderboard")
+    .then((response) => response.json())
+    .then((res) => {
+      leaderboardData.leaderboard = res.leaderboard;
+      createLeaderboard();
+    });
+};
+
+// CREATE LEADERBOARD
+function createLeaderboard () {
+  leaderboardHeader.innerText = '🏆 Leaderboard 🏆';
+  body[0].appendChild(leaderboardSection);
+  leaderboardSection.appendChild(leaderboardHeader);
+  leaderboardSection.appendChild(leaderboard);
+  leaderboardData.leaderboard.forEach((entry) => {
+    const entryListItem = document.createElement('li');
+    entryListItem.innerText = `${entry.name}: ${entry.score}`;
+    leaderboard.appendChild(entryListItem);
+  });
+};
+
+// CHECK NEW HIGH SCORE
+function checkHighScore () {
+  const leaderboardScores = leaderboardData.leaderboard.map((entry) => entry.score);
+  const lowestLeaderboardScore = Math.min(...leaderboardScores);
+  if (score > lowestLeaderboardScore) {
+    newHighScore();
+  };
+};
+
+// POST NEW HIGH SCORE
+function newHighScore () {
+  congratsPara.innerText = "You made it onto the leaderboard!";
+  leaderboardSection.appendChild(congratsPara);
+  nameInput.id = 'name_input';
+  nameInput.addEventListener('change', (event) => {
+    highScoreName = event.target.value;
+  });
+  inputLabel.htmlFor = 'name_input';
+  inputLabel.innerText = 'Enter your name: ';
+  inputSubmit.event
+  inputSubmit.innerText = 'submit';
+  inputSubmit.addEventListener('click', postHighScore);
+  leaderboardSection.appendChild(inputLabel);
+  leaderboardSection.appendChild(nameInput);
+  leaderboardSection.appendChild(inputSubmit);
+};
+
+function postHighScore () {
+  fetch('https://snake-api-4ixi.onrender.com/api/leaderboard', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name: highScoreName, score }),
+  }).then(() => {
+    const leaderboardItems = document.querySelectorAll('li');
+    leaderboardItems.forEach((item) => {
+        leaderboard.removeChild(item);
+      });
+    leaderboardSection.removeChild(leaderboard);
+    body[0].removeChild(leaderboardSection);
+    leaderboardSection.removeChild(congratsPara);
+    leaderboardSection.removeChild(inputLabel);
+    leaderboardSection.removeChild(nameInput);
+    leaderboardSection.removeChild(inputSubmit);
+  }).then(() => {
+    getLeaderboard();
+  });
 };

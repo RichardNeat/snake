@@ -50,3 +50,15 @@ button {
     border-radius: 5px 5px 5px 5px;
     background-color: greenyellow;
 }
+
+.game_area {
+}
+
+.leaderboard {
+  padding: 20px;
+  margin: 20px;
+}
+
+body {
+  display:flex
+}
