@@ -259,6 +259,7 @@ function newHighScore () {
   nameInput.addEventListener('change', (event) => {
     highScoreName = event.target.value;
   });
+  nameInput.maxLength = 10;
   inputLabel.htmlFor = 'name_input';
   inputLabel.innerText = 'Enter your name: ';
   inputSubmit.event
