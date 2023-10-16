@@ -165,7 +165,7 @@ function clearSnake() {
 // ADD RANDOM FOOD
 function addFood() {
   if (!foodActive) {
-    foodIndex = Math.floor(Math.random() * squares.length);
+    foodIndex = Math.floor(Math.random() * squares.length - 1);
     if (!snake.mid.includes(foodIndex) && snake.front !== foodIndex) {
       randomFoodNum = Math.floor(Math.random() * 5);
       squares[foodIndex].classList.add(`food${randomFoodNum}`);
