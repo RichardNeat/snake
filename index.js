@@ -211,18 +211,28 @@ function playAgain () {
 
 // GET LEADERBOARD
 function getLeaderboard () {
+  body[0].appendChild(leaderboardSection);
+  const loadingPara = document.createElement('p');
+  loadingPara.innerText = 'Loading leaderboard...'
+  leaderboardSection.appendChild(loadingPara);
   fetch("https://snake-server-1uz8.onrender.com/api/leaderboard")
     .then((response) => response.json())
     .then((res) => {
       leaderboardData.leaderboard = res.leaderboard;
       createLeaderboard();
+      leaderboardSection.removeChild(loadingPara);
+    })
+    .catch(() => {
+      const errorPara = document.createElement('p');
+      errorPara.innerText = 'error loading leaderboard soz';
+      leaderboardSection.appendChild(errorPara);
+      leaderboardSection.removeChild(loadingPara);
     });
 };
 
 // CREATE LEADERBOARD
 function createLeaderboard () {
   leaderboardHeader.innerText = '🏆 Leaderboard 🏆';
-  body[0].appendChild(leaderboardSection);
   leaderboardSection.appendChild(leaderboardHeader);
   leaderboardSection.appendChild(leaderboard);
   leaderboardData.leaderboard.forEach((entry) => {
