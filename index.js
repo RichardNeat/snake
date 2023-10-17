@@ -113,8 +113,8 @@ const movementTick = () => {
     if (hasFood) {
       squares[snake.front].classList.remove(`food${randomFoodNum}`);
       foodActive = false;
-      addFood();
       growSnake();
+      addFood();
     }
   }
   inputGiven = false;
